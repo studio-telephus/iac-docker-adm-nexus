@@ -1,6 +1,3 @@
-# Custom
-gitlab-runner.tfvars.sh
-
 # Local .terraform directories
 **/.terraform/*
 
