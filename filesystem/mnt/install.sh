@@ -12,15 +12,8 @@ apt-get install -y \
  bash-completion git apt-transport-https ca-certificates \
  software-properties-common
 
-##
-echo "Install self-signed CA-s"
-
-self_signed_dir="/usr/share/ca-certificates/self-signed"
-for file in "$self_signed_dir"/*.crt; do
-    my_crt="self-signed/$(basename "$file")"
-    echo "$my_crt" >> /etc/ca-certificates.conf
-done
-update-ca-certificates --fresh --verbose
+## Run pre-install scripts
+sh /mnt/setup-ca.sh
 
 
 ##
