@@ -38,6 +38,16 @@ echo 'JAVA_HOME="/usr/lib/jvm/jdk-8"' >> /etc/environment
 echo "Verify Java version"
 java -version
 
+keytool -import -trustcacerts \
+        -keystore /usr/lib/jvm/jdk-8/jre/lib/security/cacerts \
+        -storepass changeit -noprompt \
+        -alias iamcarsa \
+        -file /usr/share/ca-certificates/self-signed/iamcarsa.crt
+keytool -import -trustcacerts \
+        -keystore /usr/lib/jvm/jdk-8/jre/lib/security/cacerts \
+        -storepass changeit -noprompt \
+        -alias telephuscarsa \
+        -file /usr/share/ca-certificates/self-signed/telephuscarsa.crt
 
 ## Nexus
 echo "Create Dedicated Nexus System Account."
@@ -56,9 +66,11 @@ tar xzvf nexus-*.tar.gz -C /opt/nexus --strip-components=1
 echo "Test keytool against keystore."
 keytool -list \
  -rfc -keystore /opt/nexus/etc/ssl/keystore.jks \
- -alias 1 \
  -storepass ${SERVER_KEYSTORE_STOREPASS}
 
+keytool -list \
+ -rfc -keystore /opt/nexus/etc/ssl/truststore.jks \
+ -storepass ${SERVER_TRUSTSTORE_STOREPASS}
 
 ## Configuration
 
@@ -137,8 +149,6 @@ cat << EOF > /opt/nexus/etc/jetty/jetty-https.xml
     <Set name="KeyStorePath">/opt/nexus/etc/ssl/keystore.jks</Set>
     <Set name="KeyStorePassword">${SERVER_KEYSTORE_STOREPASS}</Set>
     <Set name="KeyManagerPassword">${SERVER_KEYSTORE_STOREPASS}</Set>
-    <Set name="TrustStorePath">/opt/nexus/etc/ssl/truststore.jks</Set>
-    <Set name="TrustStorePassword">${SERVER_TRUSTSTORE_STOREPASS}</Set>
     <Set name="EndpointIdentificationAlgorithm"></Set>
     <Set name="NeedClientAuth"><Property name="jetty.ssl.needClientAuth" default="false"/></Set>
     <Set name="WantClientAuth"><Property name="jetty.ssl.wantClientAuth" default="false"/></Set>
