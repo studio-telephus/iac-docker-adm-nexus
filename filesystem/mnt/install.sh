@@ -9,7 +9,7 @@ echo "Install the base tools"
 apt-get update
 apt-get install -y \
  curl vim wget htop unzip gnupg2 netcat-traditional \
- bash-completion git apt-transport-https ca-certificates \
+ bash-completion \
  software-properties-common
 
 ## Run pre-install scripts
@@ -23,7 +23,7 @@ echo "Install JDK"
 wget https://corretto.aws/downloads/latest/amazon-corretto-8-x64-linux-jdk.tar.gz
 
 mkdir -p /usr/lib/jvm/jdk-8
-tar -xvf *.tar.gz -C /usr/lib/jvm/jdk-8 --strip-components 1
+tar -xvf amazon-corretto-*.tar.gz -C /usr/lib/jvm/jdk-8 --strip-components 1
 /usr/lib/jvm/jdk-8/bin/java -version
 
 update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jdk-8/bin/java" 0
@@ -230,5 +230,8 @@ systemctl enable --now nexus.service
 
 echo "Check the service status."
 systemctl status nexus
+
+## cleanup
+rm -f amazon-corretto-*.tar.gz
 
 echo "You should now be able to access Nexus."
