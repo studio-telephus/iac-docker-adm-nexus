@@ -6,13 +6,13 @@ The OSS version of the Nexus repository manager allows you to universally manage
 
 ## Proceed with manual install
 
-If the install script was successful, you should be able to access Nexus [here](https://artifactory.dev.acme.corp/nexus).
+If the install script was successful, you should be able to access Nexus [here](https://nexus.dev.acme.corp/nexus).
 
 ## (Optional) Create a reverse proxy for external access
 
     <Location /nexus>
-        ProxyPass https://artifactory.dev.acme.corp:443/nexus
-        ProxyPassReverse https://artifactory.dev.acme.corp:443/nexus
+        ProxyPass https://nexus.adm.acme.corp:443/nexus
+        ProxyPassReverse https://nexus.adm.acme.corp:443/nexus
     </Location>
 
 ### Setup Nexus Repository Manager

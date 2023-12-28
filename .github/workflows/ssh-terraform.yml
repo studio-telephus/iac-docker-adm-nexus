@@ -16,6 +16,6 @@ jobs:
           SshPort: ${{ secrets.TEL_SSH_PORT }}
           SshUser: ${{ secrets.TEL_SSH_USER }}
           SshPrivateKey: ${{ secrets.GHA_SSH_PRIVATE_KEY }}
-          RemotePath: "~/components/containers/adm/artifactory"
+          RemotePath: "~/components/containers/adm/nexus"
           DryRun: true
           Destroy: false

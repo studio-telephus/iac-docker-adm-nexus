@@ -1,6 +1,6 @@
-module "container_adm_artifactory" {
+module "container_adm_nexus" {
   source    = "github.com/studio-telephus/terraform-lxd-instance.git?ref=1.0.1"
-  name      = "container-adm-artifactory"
+  name      = "container-adm-nexus"
   image     = "images:debian/bookworm"
   profiles  = ["limits", "fs-dir", "nw-adm"]
   autostart = true
