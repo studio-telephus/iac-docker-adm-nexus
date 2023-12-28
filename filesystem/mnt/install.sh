@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 : "${RANDOM_STRING?}"
 : "${SERVER_KEYSTORE_STOREPASS?}"
-: "${SERVER_TRUSTSTORE_STOREPASS?}"
 
 ##
 echo "Install the base tools"
@@ -9,8 +8,7 @@ echo "Install the base tools"
 apt-get update
 apt-get install -y \
  curl vim wget htop unzip gnupg2 netcat-traditional \
- bash-completion \
- software-properties-common
+ bash-completion software-properties-common
 
 ## Run pre-install scripts
 sh /mnt/setup-ca.sh
@@ -67,10 +65,6 @@ echo "Test keytool against keystore."
 keytool -list \
  -rfc -keystore /opt/nexus/etc/ssl/keystore.jks \
  -storepass ${SERVER_KEYSTORE_STOREPASS}
-
-keytool -list \
- -rfc -keystore /opt/nexus/etc/ssl/truststore.jks \
- -storepass ${SERVER_TRUSTSTORE_STOREPASS}
 
 ## Configuration
 

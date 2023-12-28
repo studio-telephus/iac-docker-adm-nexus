@@ -20,7 +20,6 @@ module "container_adm_nexus" {
   exec         = "/mnt/install.sh"
   environment = {
     RANDOM_STRING               = "e4534916-cd19-44e3-8d70-9c4cabbe426e"
-    SERVER_KEYSTORE_STOREPASS   = var.server_keystore_storepass
-    SERVER_TRUSTSTORE_STOREPASS = var.server_truststore_storepass
+    SERVER_KEYSTORE_STOREPASS   = var.nexus_keystore_storepass
   }
 }
