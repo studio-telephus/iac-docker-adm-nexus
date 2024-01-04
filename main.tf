@@ -1,5 +1,5 @@
 module "container_adm_nexus" {
-  source    = "github.com/studio-telephus/terraform-lxd-instance.git?ref=1.0.1"
+  source    = "github.com/studio-telephus/terraform-lxd-instance.git?ref=1.0.3"
   name      = "container-adm-nexus"
   image     = "images:debian/bookworm"
   profiles  = ["limits", "fs-dir", "nw-adm"]
@@ -19,7 +19,7 @@ module "container_adm_nexus" {
   exec_enabled = true
   exec         = "/mnt/install.sh"
   environment = {
-    RANDOM_STRING               = "e4534916-cd19-44e3-8d70-9c4cabbe426e"
-    SERVER_KEYSTORE_STOREPASS   = var.nexus_keystore_storepass
+    RANDOM_STRING             = "e4534916-cd19-44e3-8d70-9c4cabbe426e"
+    SERVER_KEYSTORE_STOREPASS = var.nexus_keystore_storepass
   }
 }
