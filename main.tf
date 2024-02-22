@@ -1,25 +1,50 @@
-module "container_adm_nexus" {
-  source    = "github.com/studio-telephus/terraform-lxd-instance.git?ref=1.0.3"
-  name      = "container-adm-nexus"
-  image     = "images:debian/bookworm"
-  profiles  = ["limits", "fs-dir", "nw-adm"]
-  autostart = true
-  nic = {
-    name = "eth0"
-    properties = {
-      nictype        = "bridged"
-      parent         = "adm-network"
-      "ipv4.address" = "10.0.10.120"
+locals {
+  name              = "nexus"
+  docker_image_name = "tel-${var.env}-${local.name}"
+  container_name    = "container-${var.env}-${local.name}"
+  fqdn              = "nexus.docker.${var.env}.acme.corp"
+  nexus_address    = "https://${local.fqdn}/nexus"
+}
+
+resource "docker_image" "nexus" {
+  name         = local.docker_image_name
+  keep_locally = false
+  build {
+    context = path.module
+    build_args = {
+      _SERVER_KEY_PASSPHRASE = module.bw_nexus_pk_passphrase.data.password
     }
   }
-  mount_dirs = [
-    "${path.cwd}/filesystem-shared-ca-certificates",
-    "${path.cwd}/filesystem",
+  triggers = {
+    dir_sha1 = sha1(join("", [
+      filesha1("${path.module}/Dockerfile")
+    ]))
+  }
+}
+
+resource "docker_volume" "nexus_data" {
+  name = "volume-${var.env}-nexus-data"
+}
+
+resource "docker_container" "nexus" {
+  name  = local.container_name
+  image = docker_image.nexus.image_id
+  restart  = "unless-stopped"
+  hostname = local.container_name
+  shm_size = 1024
+
+  networks_advanced {
+    name         = "${var.env}-docker"
+    ipv4_address = "10.10.0.120"
+  }
+
+  env = [
+    "RANDOM_STRING=e4534916-cd19-44e3-8d70-9c4cabbe426e"
   ]
-  exec_enabled = true
-  exec         = "/mnt/install.sh"
-  environment = {
-    RANDOM_STRING             = "e4534916-cd19-44e3-8d70-9c4cabbe426e"
-    SERVER_KEYSTORE_STOREPASS = var.nexus_keystore_storepass
+
+  volumes {
+    volume_name    = docker_volume.nexus_data.name
+    container_path = "/nexus-data"
+    read_only      = false
   }
 }

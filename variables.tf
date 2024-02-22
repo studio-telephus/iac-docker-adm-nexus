@@ -1,4 +1,4 @@
-variable "nexus_keystore_storepass" {
-  type      = string
-  sensitive = true
+variable "env" {
+  type    = string
+  default = "adm"
 }
