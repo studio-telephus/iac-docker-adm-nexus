@@ -3,7 +3,7 @@ locals {
   docker_image_name = "tel-${var.env}-${local.name}"
   container_name    = "container-${var.env}-${local.name}"
   fqdn              = "nexus.docker.${var.env}.acme.corp"
-  nexus_address    = "https://${local.fqdn}/nexus"
+  nexus_address     = "https://${local.fqdn}/nexus"
 }
 
 resource "docker_image" "nexus" {
@@ -27,8 +27,8 @@ resource "docker_volume" "nexus_data" {
 }
 
 resource "docker_container" "nexus" {
-  name  = local.container_name
-  image = docker_image.nexus.image_id
+  name     = local.container_name
+  image    = docker_image.nexus.image_id
   restart  = "unless-stopped"
   hostname = local.container_name
   shm_size = 1024
