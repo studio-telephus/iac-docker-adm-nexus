@@ -27,7 +27,7 @@ RUN chown -R nexus: /opt/nexus
 
 # Ports below 1024 are called Privileged Ports and in Linux (and most UNIX flavors and UNIX-like systems), they are not allowed to be opened by any non-root user. This is a security feature originally implemented as a way to prevent a malicious user from setting up a malicious service on a well-known service port.
 # Setting this up means that any user can open privileged ports using Java
-setcap cap_net_bind_service+ep /usr/lib/jvm/jre/bin/java
+# setcap cap_net_bind_service+ep /usr/lib/jvm/jre/bin/java
 
 # RUN bash /mnt/setup-ca.sh
 
