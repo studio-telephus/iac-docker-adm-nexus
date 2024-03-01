@@ -1,11 +1,6 @@
 # This Nexus image is based on the RHEL Universal Base Image (UBI).
 FROM sonatype/nexus3:3.65.0
 
-COPY ./filesystem /.
-COPY ./filesystem-shared-ca-certificates /.
-
-ARG _SERVER_KEY_PASSPHRASE
-
 USER root
 
 # RUN microdnf install epel-release
@@ -23,15 +18,20 @@ RUN chown nexus:nexus /opt/sonatype/nexus/etc/logback/logback.xml
 
 RUN microdnf clean all
 
-# Set ownership of the nexus directory.
+# Set ownership of the embedded custom directory.
 RUN chown -R nexus: /opt/nexus
 
 # Ports below 1024 are called Privileged Ports and in Linux (and most UNIX flavors and UNIX-like systems), they are not allowed to be opened by any non-root user. This is a security feature originally implemented as a way to prevent a malicious user from setting up a malicious service on a well-known service port.
 # Setting this up means that any user can open privileged ports using Java
 # setcap cap_net_bind_service+ep /usr/lib/jvm/jre/bin/java
 
-# RUN bash /mnt/setup-ca.sh
+# Apply custom overlay
+COPY ./filesystem /.
+COPY ./filesystem-shared-ca-certificates /.
+ARG _SERVER_KEY_PASSPHRASE
+ENV SERVER_KEYSTORE_STOREPASS=${_SERVER_KEY_PASSPHRASE}
+RUN bash /mnt/install-overlay.sh
 
 USER nexus
 
-EXPOSE 22 80 443 8081
+EXPOSE 80 443
