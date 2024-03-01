@@ -39,6 +39,7 @@ resource "docker_container" "nexus" {
   }
 
   env = [
+    "NEXUS_CONTEXT=/nexus",
     "RANDOM_STRING=e4534916-cd19-44e3-8d70-9c4cabbe426e"
   ]
 

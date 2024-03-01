@@ -10,6 +10,6 @@ ARG _SERVER_KEY_PASSPHRASE
 #  -out /etc/gitlab/ssl/private/server.key \
 #  -passin "pass:${_SERVER_KEY_PASSPHRASE}"
 
-RUN bash /mnt/setup-ca.sh
+# RUN bash /mnt/setup-ca.sh
 
 EXPOSE 22 80 443 8081
