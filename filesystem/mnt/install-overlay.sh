@@ -24,7 +24,7 @@ cat << EOF > /opt/sonatype/nexus/etc/nexus-default.properties
 application-port-ssl=443
 application-host=0.0.0.0
 nexus-args=\${jetty.etc}/jetty.xml,\${jetty.etc}/jetty-https.xml,\${jetty.etc}/jetty-requestlog.xml
-nexus-context-path=/${NEXUS_CONTEXT}
+nexus-context-path=\${NEXUS_CONTEXT}
 ssl.etc=\${karaf.data}/etc/ssl
 
 # Nexus section

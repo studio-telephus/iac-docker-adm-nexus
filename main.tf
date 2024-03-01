@@ -39,7 +39,7 @@ resource "docker_container" "nexus" {
   }
 
   env = [
-    "NEXUS_CONTEXT=nexus",
+    "NEXUS_CONTEXT=/nexus",
     "NEXUS_SECURITY_INITIAL_PASSWORD=${module.bw_nexus_user_admin.data.initial_password}",
     "NEXUS_SECURITY_RANDOMPASSWORD=false",
     "INSTALL4J_ADD_VM_PARAMS=-Xms2703M -Xmx2703M -XX:MaxDirectMemorySize=2703M -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Djava.util.prefs.userRoot=/nexus-data/javaprefs"
