@@ -8,8 +8,9 @@ ARG _SERVER_KEY_PASSPHRASE
 
 USER root
 
-RUN microdnf install epel-release && microdnf --assumeyes update
-RUN microdnf install --assumeyes jq openssl htop vim
+# RUN microdnf install epel-release
+RUN microdnf --assumeyes update
+RUN microdnf install --assumeyes jq openssl vim
 
 # The plugin requires an updated JVM cacerts file and credential
 # which must be referenced from nexus.vmoptions.  The nexus user
